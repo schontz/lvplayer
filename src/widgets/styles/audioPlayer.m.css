@@ -1,0 +1,46 @@
+.root {
+	display: inline-block;
+}
+
+.sliderContainer {
+	display: inline-block;
+	width: 500px;
+	margin: 0 1em;
+}
+
+.sliderContainer output {
+	display: none;
+}
+
+.controls {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.controlIcon {
+	margin: 5px;
+	border: 0;
+	background: transparent;
+	font-size: 15px;
+}
+
+.trackTime {
+}
+
+.currentTime.none {
+	color: #aaa;
+}
+
+.currentTime {
+
+}
+
+.durationTime {
+
+}
+
+.durationTime.none {
+	color: #aaa;
+}
+
+/* TODO: add classes for each control button so you can chose which ones to show/hide */

@@ -1,0 +1,113 @@
+@font-face {
+	font-family: 'media';
+	src:
+	url('./fonts/media.ttf?uo6eml') format('truetype'),
+	url('./fonts/media.woff?uo6eml') format('woff'),
+	url('./fonts/media.svg?uo6eml#media') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.root {}
+
+.icon {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'media' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.listIcon::before {
+	content: "\e9ba";
+}
+
+.starEmptyIcon::before {
+	content: "\e9d7";
+}
+
+.starFullIcon::before {
+	content: "\e9d9";
+}
+
+.warningIcon::before {
+	content: "\da07";
+}
+
+.playIcon::before {
+	content: "\ea1c";
+}
+
+.pauseIcon::before {
+	content: "\ea1d";
+}
+
+.rewindIcon::before {
+	content: "\ea1f";
+}
+
+.fastforwardIcon::before {
+	content: "\ea20";
+}
+
+.firstTrackIcon::before {
+	content: "\ea21";
+}
+
+.lastTrackIcon::before {
+	content: "\ea22";
+}
+
+.previousTrackIcon::before {
+	content: "\ea23";
+}
+
+.nextTrackIcon::before {
+	content: "\ea24";
+}
+
+.ejectIcon::before {
+	content: "\ea25";
+}
+
+.volumeHigh::before {
+	content: "\ea26";
+}
+
+.volumeMedium::before {
+	content: "\ea27";
+}
+
+.volumeLow::before {
+	content: "\ea28";
+}
+
+.volumeNone::before {
+	content: "\ea29";
+}
+
+.volumeMute::before {
+	content: "\ea2a";
+}
+
+.volumeIncrease::before {
+	content: "\ea2b";
+}
+
+.volumeDecrease::before {
+	content: "\ea2c";
+}
+
+.loopIcon::before {
+	content: "\ea2d";
+}
+
+.shuffleIcon::before {
+	content: "\ea30";
+}
