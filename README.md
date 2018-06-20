@@ -1,4 +1,6 @@
-# tunecloud
+# lvplayer
+
+A dojo 2 LibriVox audiobook player that uses a Material theme.
 
 This project was generated with the [Dojo CLI](https://github.com/dojo/cli) & [Dojo CLI create app command](https://github.com/dojo/cli-create-app).
 

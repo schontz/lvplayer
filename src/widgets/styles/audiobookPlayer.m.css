@@ -1,15 +1,14 @@
 .root {
-	display: inline-block;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
 }
 
-.sliderContainer {
-	display: inline-block;
-	width: 15em;
-	margin: 0 1em;
-}
-
-.sliderContainer output {
-	display: none;
+.progress {
+	width: 100%;
+	margin-bottom: 4px;
 }
 
 .controls {
@@ -17,14 +16,10 @@
 	margin-right: 1em;
 }
 
-.controlIcon {
-	margin: 5px;
-	border: 0;
-	background: transparent;
-	font-size: 15px;
-}
-
-.trackTime {
+.timeDisplay {
+	display: inline-block;
+	margin-top: 13px;
+	vertical-align: top;
 }
 
 .currentTime.none {

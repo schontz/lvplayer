@@ -1,0 +1,41 @@
+.root {
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.root h3 {
+	margin-top: 0;
+}
+
+.root .description {
+	display: none;
+}
+
+/*
+.root .description p {
+	display: none;
+}
+
+.root .description p:first-of-type {
+	display: block;
+}
+*/
+
+.root .card__actions {
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+}
+
+.root.expanded .description {
+	display: block;
+}
+
+/*
+.root.expanded .description p {
+	display: block !important;
+	overflow: inherit;
+	text-overflow: inherit;
+	white-space: inherit;
+}
+*/

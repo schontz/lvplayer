@@ -1,0 +1,150 @@
+/*!
+ Material Components for the Web
+ Copyright (c) 2018 Google Inc.
+ License: Apache-2.0
+*/
+:root {
+  --mdc-theme-primary: #6200ee;
+  --mdc-theme-secondary: #018786;
+  --mdc-theme-background: #fff;
+  --mdc-theme-surface: #fff;
+  --mdc-theme-on-primary: #fff;
+  --mdc-theme-on-secondary: #fff;
+  --mdc-theme-on-surface: #000;
+  --mdc-theme-text-primary-on-background: rgba(0, 0, 0, 0.87);
+  --mdc-theme-text-secondary-on-background: rgba(0, 0, 0, 0.54);
+  --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-icon-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+  --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+  --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-primary-on-dark: white;
+  --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+  --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+  --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+  --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5); }
+
+.theme__primary {
+  color: #6200ee !important;
+  /* @alternate */
+  color: var(--mdc-theme-primary, #6200ee) !important; }
+
+.theme__secondary {
+  color: #018786 !important;
+  /* @alternate */
+  color: var(--mdc-theme-secondary, #018786) !important; }
+
+.theme__background {
+  background-color: #fff;
+  /* @alternate */
+  background-color: var(--mdc-theme-background, #fff); }
+
+.theme__surface {
+  background-color: #fff;
+  /* @alternate */
+  background-color: var(--mdc-theme-surface, #fff); }
+
+.theme__onPrimary {
+  color: #fff !important;
+  /* @alternate */
+  color: var(--mdc-theme-on-primary, #fff) !important; }
+
+.theme__onSecondary {
+  color: #fff !important;
+  /* @alternate */
+  color: var(--mdc-theme-on-secondary, #fff) !important; }
+
+.theme__onSurface {
+  color: #000 !important;
+  /* @alternate */
+  color: var(--mdc-theme-on-surface, #000) !important; }
+
+.theme__textPrimaryOnBackground {
+  color: rgba(0, 0, 0, 0.87) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.87)) !important; }
+
+.theme__textSecondaryOnBackground {
+  color: rgba(0, 0, 0, 0.54) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-secondary-on-background, rgba(0, 0, 0, 0.54)) !important; }
+
+.theme__textHintOnBackground {
+  color: rgba(0, 0, 0, 0.38) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.38)) !important; }
+
+.theme__textDisabledOnBackground {
+  color: rgba(0, 0, 0, 0.38) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-disabled-on-background, rgba(0, 0, 0, 0.38)) !important; }
+
+.theme__textIconOnBackground {
+  color: rgba(0, 0, 0, 0.38) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-icon-on-background, rgba(0, 0, 0, 0.38)) !important; }
+
+.theme__textPrimaryOnLight {
+  color: rgba(0, 0, 0, 0.87) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-primary-on-light, rgba(0, 0, 0, 0.87)) !important; }
+
+.theme__textSecondaryOnLight {
+  color: rgba(0, 0, 0, 0.54) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-secondary-on-light, rgba(0, 0, 0, 0.54)) !important; }
+
+.theme__textHintOnLight {
+  color: rgba(0, 0, 0, 0.38) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-hint-on-light, rgba(0, 0, 0, 0.38)) !important; }
+
+.theme__textDisabledOnLight {
+  color: rgba(0, 0, 0, 0.38) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-disabled-on-light, rgba(0, 0, 0, 0.38)) !important; }
+
+.theme__textIconOnLight {
+  color: rgba(0, 0, 0, 0.38) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-icon-on-light, rgba(0, 0, 0, 0.38)) !important; }
+
+.theme__textPrimaryOnDark {
+  color: white !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-primary-on-dark, white) !important; }
+
+.theme__textSecondaryOnDark {
+  color: rgba(255, 255, 255, 0.7) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-secondary-on-dark, rgba(255, 255, 255, 0.7)) !important; }
+
+.theme__textHintOnDark {
+  color: rgba(255, 255, 255, 0.5) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-hint-on-dark, rgba(255, 255, 255, 0.5)) !important; }
+
+.theme__textDisabledOnDark {
+  color: rgba(255, 255, 255, 0.5) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-disabled-on-dark, rgba(255, 255, 255, 0.5)) !important; }
+
+.theme__textIconOnDark {
+  color: rgba(255, 255, 255, 0.5) !important;
+  /* @alternate */
+  color: var(--mdc-theme-text-icon-on-dark, rgba(255, 255, 255, 0.5)) !important; }
+
+.theme__primaryBg {
+  background-color: #6200ee !important;
+  /* @alternate */
+  background-color: var(--mdc-theme-primary, #6200ee) !important; }
+
+.theme__secondaryBg {
+  background-color: #018786 !important;
+  /* @alternate */
+  background-color: var(--mdc-theme-secondary, #018786) !important; }
+
+/*# sourceMappingURL=mdc.theme.css.map*/

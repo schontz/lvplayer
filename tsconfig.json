@@ -14,7 +14,7 @@
 		],
 		"module": "umd",
 		"moduleResolution": "node",
-		"noUnusedLocals": true,
+		"noUnusedLocals": false,
 		"outDir": "_build/",
 		"removeComments": false,
 		"importHelpers": true,

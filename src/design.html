@@ -1,0 +1,132 @@
+<html>
+<head>
+	<title>design comps</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+	<style type="text/css">
+@import 'widgets/mdc/material-components-web.css';
+
+.root {
+	width: 300px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.root h3 {
+	margin-top: 0;
+}
+
+.root .description p {
+	display: none;
+}
+
+.root .description p:first-of-type {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.root .card__actions {
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+}
+
+.root.expanded {
+	width: 500px;
+}
+
+.root.expanded .description p {
+	display: block !important;
+	overflow: inherit;
+	text-overflow: inherit;
+	white-space: inherit;
+}
+</style>
+</head>
+<body>
+	<p>Demo of our designs, before we widget-ize them.</p>
+
+	<div class="root card">
+		<div>
+			<h3 class="typography__headline6">Adventures of Huckleberry Finn</h3>
+			<h4 class="typography__subtitle1">By
+				<cite>Mark Twain</cite>
+			</h4>
+			</h4>
+		</div>
+		<div class="description typography__body2">
+			<p>
+				<em>Adventures of Huckleberry Finn</em> (1884) by Mark Twain is one of the truly great American novels, beloved by children,
+				adults, and literary critics alike. The book tells the story of “Huck” Finn (first introduced as Tom Sawyer’s sidekick
+				in
+				<em>The Adventures of Tom Sawyer</em>), his friend Jim, and their journey down the Mississippi River on a raft. Both are on
+				the run, Huck from his drunk and abusive father, and Jim as a runaway slave.</p>
+			<p>As Huck and Jim drift down the river, they meet many colorful characters and have many great adventures. The true heart
+				of the story, however, is the friendship between Huck and Jim. A constant theme throughout the book is Huck’s internal
+				struggle between what he has been taught, that helping a runaway slave is a sin, and what he truly believes, that Jim
+				is a good man and it couldn’t possibly be wrong to help him.</p>
+			<p>
+				<em>Adventures of Huckleberry Finn</em> was unique at the time of its publication (1884) because it is narrated by Huck himself
+				and is written in the numerous dialects common in the area and time in which the book is set. Although the book was originally
+				intended as a sequel to the children’s book
+				<em>The Adventures of Tom Sawyer</em>, as Twain wrote
+				<em>Adventures of Huckleberry Finn</em> it progressed into a more serious work. Twain’s views on slavery and other social
+				issues of the time become clear through the words, thoughts, and actions of Huck Finn. The book has always been the subject
+				of great controversy, and according to
+				<a href="http://www.ala.org/bbooks/100-most-frequently-challenged-books-1990–1999"
+				 target="_blank">The American Library Association</a> it was fifth on the list of most frequently challenged books in the 1990s.
+				<br />(Summary by Annie Coleman)</p>
+		</div>
+		<div class="card__actions card__border">
+			<button class="button card__action">
+				More
+				<i class="material-icons">expand_more</i>
+			</button>
+			</div>
+	</div>
+
+
+
+
+	<div class="root card expanded">
+		<div>
+			<h3 class="typography__headline6">Adventures of Huckleberry Finn</h3>
+			<h4 class="typography__subtitle1">By
+				<cite>Mark Twain</cite>
+			</h4>
+			</h4>
+		</div>
+		<div class="description typography__body2">
+			<p>
+				<em>Adventures of Huckleberry Finn</em> (1884) by Mark Twain is one of the truly great American novels, beloved by children,
+				adults, and literary critics alike. The book tells the story of “Huck” Finn (first introduced as Tom Sawyer’s sidekick
+				in
+				<em>The Adventures of Tom Sawyer</em>), his friend Jim, and their journey down the Mississippi River on a raft. Both are on
+				the run, Huck from his drunk and abusive father, and Jim as a runaway slave.</p>
+			<p>As Huck and Jim drift down the river, they meet many colorful characters and have many great adventures. The true heart
+				of the story, however, is the friendship between Huck and Jim. A constant theme throughout the book is Huck’s internal
+				struggle between what he has been taught, that helping a runaway slave is a sin, and what he truly believes, that Jim
+				is a good man and it couldn’t possibly be wrong to help him.</p>
+			<p>
+				<em>Adventures of Huckleberry Finn</em> was unique at the time of its publication (1884) because it is narrated by Huck himself
+				and is written in the numerous dialects common in the area and time in which the book is set. Although the book was originally
+				intended as a sequel to the children’s book
+				<em>The Adventures of Tom Sawyer</em>, as Twain wrote
+				<em>Adventures of Huckleberry Finn</em> it progressed into a more serious work. Twain’s views on slavery and other social
+				issues of the time become clear through the words, thoughts, and actions of Huck Finn. The book has always been the subject
+				of great controversy, and according to
+				<a href="http://www.ala.org/bbooks/100-most-frequently-challenged-books-1990–1999"
+				 target="_blank">The American Library Association</a> it was fifth on the list of most frequently challenged books in the 1990s.
+				<br />(Summary by Annie Coleman)</p>
+		</div>
+		<div class="card__actions card__border">
+			<button class="button card__action">
+				Less
+				<i class="material-icons">expand_less</i>
+			</button>
+			</div>
+	</div>
+</body>
+</html>

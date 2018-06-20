@@ -45,14 +45,21 @@ export default class AudioPlayer extends ThemedBase<AudioPlayerProperties> {
 				this._onTimeUpdate();
 				andPlayIt && this._audio.play();
 			};
+			this._audio.onended = () => { this._playNext(); }
 			return true;
 		}
 		return false;
 	}
 
-	private _gotoTrack(idx: number) {
+	private _playNext() {
+		if (this._currentTrack < this.properties.sources.length - 1) {
+			this._gotoTrack(this._currentTrack + 1, true);
+		}
+	}
+
+	private _gotoTrack(idx: number, andPlay = false) {
 		let playing = this._isPlaying();
-		if (this._setSource(this.properties.sources[idx], playing)) {
+		if (this._setSource(this.properties.sources[idx], playing || andPlay)) {
 			this._currentTrack = idx;
 		}
 	}
@@ -87,7 +94,7 @@ export default class AudioPlayer extends ThemedBase<AudioPlayerProperties> {
 	private _sliderRateTO = 0;
 	private _onSliderInput(num: number) {
 		clearTimeout(this._sliderRateTO);
-		this._sliderRateTO = setTimeout(() => { this._audio.currentTime = num; }, 100);
+		this._sliderRateTO = window.setTimeout(() => { this._audio.currentTime = num; }, 100);
 	}
 
 	private _isPlaying() {
