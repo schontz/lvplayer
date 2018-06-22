@@ -5,20 +5,23 @@ import * as css from './styles/audiobookPlayer.m.css';
 import * as mdc from './mdc/material-components-web.m.css';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
-import MediaIcon from './MediaIcon';
-import Button from '@dojo/widgets/button';
 import MdcIconButton from './MdcIconButton';
 import MdcLinearProgress from './MdcLinearProgress';
-
-export interface AudiobookItem {
-	title?: string;
-	url?: string;
-	duration?: string;
-}
+import { AudiobookChapterType, AudiobookType } from '../interfaces';
+import Select from '@dojo/widgets/select';
 
 export interface AudiobookPlayerProperties extends WidgetProperties {
-	name?: string;
-	sources?: AudiobookItem[];
+	title?: string;
+	chapters?: AudiobookChapterType[];
+	currentChapter: number;
+	playbackPosition: number;
+	//book: AudiobookType;
+	onPause?(): void;
+	onPlay?(): void;
+	onPlayPause?(): void;
+	onTimeUpdate?(currentTime: number): void;
+	onGotoChapter?(chapter: AudiobookChapterType, index: number): void;
+	playOnLoad?: boolean;
 }
 
 export const ThemedBase = ThemedMixin(WidgetBase);
@@ -30,21 +33,27 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 	private _playPause() {
 		if(this._isPlaying()) {
 			this._audio.pause();
+			this.properties.onPause && this.properties.onPause();
 		} else {
 			this._audio.play();
+			this.properties.onPlay && this.properties.onPlay();
 		}
+		this.properties.onPlayPause && this.properties.onPlayPause();
 		this.invalidate();
 	}
+
+	private _progressIndeterminate = false;
 
 	private _setSource(src: string, andPlayIt = false) {
 		// Otherwise nothing plays because the source is constantly reset.
 		// This widget probably needs some things to live outside of render land.
 		// How can the src be set on creation instead of render?
 		if(this._audio.src != src) {
-			console.log('Audio source:',src);
+			this._progressIndeterminate = true;
 			this._audio.src = src;
 			this._audio.ontimeupdate = () => { this._onTimeUpdate(); };
 			this._audio.onloadedmetadata = () => {
+				this._progressIndeterminate = false;
 				this._onTimeUpdate();
 				andPlayIt && this._audio.play();
 			};
@@ -55,37 +64,53 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 	}
 
 	private _playNext() {
-		const {
-			sources = []
-		} = this.properties;
+		const chapters = this._getChapters();
 
-		if (this._currentTrack < sources.length - 1) {
-			this._gotoTrack(this._currentTrack + 1, true);
+		const next = this._getBookChapter() + 1;
+		if (next < chapters.length) {
+			this._gotoTrack(next, true);
 		}
 	}
 
 	private _gotoTrack(idx: number, andPlay = false) {
 		const {
-			sources = []
+			onGotoChapter
 		} = this.properties;
+		const chapters = this._getChapters();
 
-		const url = sources[idx] ? sources[idx].url || '' : '';
+		const track = chapters[idx];
+		const url = track ? track.url || '' : '';
 
-		let playing = this._isPlaying();
-		if (this._setSource(url, playing || andPlay)) {
-			this._currentTrack = idx;
+		const playing = this._isPlaying();
+		if (url && this._setSource(url, playing || andPlay)) {
+			onGotoChapter && onGotoChapter(track, idx);
+		}
+	}
+
+	private _jump(seconds:number) {
+		let time = this._audio.currentTime;
+		let newTime = time + seconds;
+		if(newTime < 0) {
+			newTime = 0;
+		} else if(newTime > this._duration) {
+			newTime = this._duration;
+		}
+
+		if(time != newTime) {
+			this._audio.currentTime = newTime;
+			this.invalidate();
 		}
 	}
 
 	private _currentTime = 0;
 	private _duration = 0;
-	private _currentTrack = -1;
 	private _shuffling = false;
 	private _looping = false;
 
 	protected _onTimeUpdate() {
 		this._currentTime = Math.floor(this._audio.currentTime);
 		this._duration = Math.floor(this._audio.duration);
+		this.properties.onTimeUpdate && this.properties.onTimeUpdate(this._currentTime);
 		this.invalidate();
 	}
 
@@ -107,55 +132,117 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 		return this._audio.duration > 0 && !this._audio.paused;
 	}
 
-	protected render() {
-		const {
-			sources = []
-		} = this.properties;
+	private _getChapters() {
+		if(this.properties.book) {
+			return this.properties.book.chapters || [];
+		}
+		return [];
+	}
 
-		if(this._currentTrack <= 0 ) {
-			this._gotoTrack(0);
+	private _getBookChapter() {
+		if(this.properties.book) {
+			return this.properties.book.currentChapter || 0;
+		}
+		return 0;
+	}
+
+	private _getBookPosition() {
+		if(this.properties.book) {
+			return this.properties.book.currentPosition || 0;
+		}
+		return 0;
+	}
+
+	private _renderPlayer() {
+		const book: Partial<AudiobookType> = this.properties.book || {};
+		const {
+			chapters = [],
+			title = ''
+		} = book;
+
+		if(this._getBookChapter() <= 0 ) {
+			this._gotoTrack(0, this.properties.playOnLoad);
 		}
 
 		const minValue = this._isPlaying() ? 0.01 : 0;
-		const progress = Math.max(this._currentTime / this._duration, minValue);
+		const progress = this._duration > 0 ?
+			Math.max(this._currentTime / this._duration, minValue) :
+			1;
 
 		return v('div', {
 			key: 'root',
 			classes: [mdc.elevation__z4, this.theme(css.root), mdc.theme__surface]
 		}, [
-			w(MdcLinearProgress, { extraClasses: [this.theme(css.progress)], progress: progress }),
-			v('div', {
-				key: 'controls',
-				classes: this.theme(css.controls)
-			}, [
-				w(MdcIconButton, {
-					icon:'replay_10',
-					onClick: () => this._gotoTrack(this._currentTrack-1)
+				w(MdcLinearProgress, {
+					indeterminate: this._progressIndeterminate,
+					extraClasses: [this.theme(css.progress)], progress: progress
 				}),
-				w(MdcIconButton, {
-					icon: this._isPlaying() ? 'pause' : 'play_arrow',
-					onClick: () => this._playPause()
-				}),
-				w(MdcIconButton, {
-					icon: 'forward_10',
-					onClick: () => this._gotoTrack(this._currentTrack+1)
-				})
-			]),
 			v('div', {
-				classes: this.theme(css.timeDisplay)
-			}, [
-					v('span', {
-						key: 'currentTime',
-						classes: this.theme([css.currentTime, this._duration <= 0 ? css.none : null])
-					}, [this._formatTime(this._currentTime)]),
-					' / ',
-					v('span', {
-						key: 'durationTime',
-						classes: [
-							...this.theme([css.durationTime, this._duration <= 0 ? this.theme(css.none) : null])
-						]
-					}, [this._formatTime(this._duration)])
-			])
-		]);
+				key: 'controlsAndDisplays',
+				classes: this.theme(css.controlsAndDisplays)
+				}, [
+					v('div', { classes: [mdc.typography__caption, this.theme(css.bookDisplay)] }, [ // left 1/3rd
+						v('div', { classes: [mdc.typography__subtitle2, this.theme(css.bookTitle)], title }, [title]),
+						chapters.length ? w(Select, {
+							key: 'chapterSelector',
+							useNativeElement: true,
+							getOptionLabel: (option: AudiobookChapterType) => option.title,
+							getOptionValue: (option: AudiobookChapterType) => option.index.toString(),
+							getOptionSelected: (option: AudiobookChapterType) => option.index == this._getBookChapter(),
+							getOptionDisabled: (option: AudiobookChapterType) => false,
+							options: chapters.map((ch, index) => {
+								return { ...ch, index, key:`${index}_${ch.url}` };
+							}),
+							value: this._getBookChapter().toString(),
+							onChange: (option: AudiobookChapterType) => {
+								this._gotoTrack(option.index, true);
+								this.invalidate();
+							}
+						}) : null
+					]),
+					v('div', { // middle 1/3rd
+						key: 'controls',
+						classes: this.theme(css.controls)
+					}, [
+							w(MdcIconButton, {
+								icon: 'replay_30',
+								onClick: () => this._jump(-30),
+								disabled: !this._audio.src,
+								extraClasses: this.theme([css.icon, css.rewind])
+							}),
+							w(MdcIconButton, {
+								icon: this._isPlaying() ? 'pause' : 'play_arrow',
+								onClick: () => this._playPause(),
+								disabled: !this._audio.src,
+								extraClasses: this.theme([css.icon, css.playPause])
+							}),
+							w(MdcIconButton, {
+								icon: 'forward_30',
+								onClick: () => this._jump(30),
+								disabled: !this._audio.src,
+								extraClasses: this.theme([css.icon, css.forward])
+							})
+					]),
+					v('div', { // right 1/3rd
+						classes: this.theme(css.timeDisplay)
+					}, [
+							v('span', {
+								key: 'currentTime',
+								classes: this.theme([css.currentTime, this._duration <= 0 ? css.none : null])
+							}, [this._formatTime(this._currentTime)]),
+							' / ',
+							v('span', {
+								key: 'durationTime',
+								classes: [
+									...this.theme([css.durationTime, this._duration <= 0 ? this.theme(css.none) : null])
+								]
+							}, [this._formatTime(this._duration)])
+					])
+				])
+			]);
+	}
+
+	protected render() {
+		return this._renderPlayer();
 	}
 }

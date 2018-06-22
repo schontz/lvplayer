@@ -34,6 +34,10 @@ export default class MdcIconButton extends ThemedBase<MdcIconButtonProperties> {
 			tag = 'button'
 		} = this.properties;
 
+		if(disabled) {
+			extraClasses.push(mdc.iconButton__disabled);
+		}
+
 		return v(tag, {
 			disabled: disabled,
 			'aria-label': title,

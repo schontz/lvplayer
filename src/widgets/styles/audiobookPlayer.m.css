@@ -11,15 +11,48 @@
 	margin-bottom: 4px;
 }
 
+.controlsAndDisplays {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.bookDisplay {
+	flex: 1;
+	padding: 15px;
+	text-align: left;
+}
+
+.bookTitle {
+	 white-space: nowrap;
+	 overflow: hidden;
+	 text-overflow: ellipsis;
+	 max-width: 20em;
+}
+
 .controls {
-	display: inline-block;
-	margin-right: 1em;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+}
+
+.controls .icon {
+	margin: 0 5px;
+}
+
+.playPause {
+}
+
+.rewind,
+.forward {
 }
 
 .timeDisplay {
-	display: inline-block;
-	margin-top: 13px;
-	vertical-align: top;
+	flex: 1;
+	text-align: right;
+	padding: 15px;
+	color: #aaa;
 }
 
 .currentTime.none {
@@ -38,4 +71,28 @@
 	color: #aaa;
 }
 
-/* TODO: add classes for each control button so you can chose which ones to show/hide */
+@media(max-width:700px) {
+	.controls {
+		order: 1;
+	}
+
+	.bookDisplay {
+		order: 2;
+	}
+
+	.timeDisplay {
+		display: none;
+	}
+
+	.playPause {
+		order: 1;
+	}
+
+	.rewind {
+		order: 2;
+	}
+
+	.forward {
+		display: none;
+	}
+}

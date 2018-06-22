@@ -7,27 +7,14 @@ import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
 import MdcIconButton from './MdcIconButton';
 import MdcButton from './MdcButton';
+import { AudiobookType } from '../interfaces';
 
-export interface AuthorType {
-	id: number;
-	first_name: string;
-	last_name: string;
-	dob: string | number;
-	dod?: string | number;
-}
-
-export interface BookType {
-	title: string;
-	authors: AuthorType[];
-	description: string;
-	copyright_year?: number | string;
-	language?: string;
-	totaltime?: string;
-	totaltimesecs?: number;
-	num_sections?: number;
-}
-
-export interface BookListItemProperties extends WidgetProperties, BookType {
+export interface BookListItemProperties extends WidgetProperties {
+	book: AudiobookType;
+	inBookshelf?: boolean;
+	currentlyPlaying?: false;
+	onToggleBookshelf?(): void;
+	onListenNow(): void;
 }
 
 export const ThemedBase = ThemedMixin(WidgetBase);
@@ -35,13 +22,26 @@ export const ThemedBase = ThemedMixin(WidgetBase);
 @theme(css)
 export default class BookListItem extends ThemedBase<BookListItemProperties> {
 	private _expanded = false;
-	private _inLibrary = false; // TODO make part of properties
+
+	private _onToggleBookshelf(e?: MouseEvent) {
+		if(e) {
+			e.preventDefault();
+			e.cancelBubble = true;
+		}
+
+		if (this.properties.onToggleBookshelf) {
+			this.properties.onToggleBookshelf();
+			this.invalidate();
+		}
+	}
 
 	private _bookMeta() {
 		const {
-			language,
-			totaltime,
-			num_sections
+			book: {
+				language,
+				totaltime,
+				num_sections
+			}
 		} = this.properties;
 
 		let length = totaltime ? `Audio length: ${totaltime}.` : '';
@@ -56,37 +56,43 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 	}
 
 	private _bookActions () {
+		const {
+			currentlyPlaying = false,
+			inBookshelf = false
+		} = this.properties;
+
 		return [
 			w(MdcButton, {
 				variant: 'outlined',
 				icon: 'play_arrow',
-				onClick: () => this._listenToMe()
+				disabled: currentlyPlaying,
+				onClick: () => { this._onListenNow(); }
 			}, ['Listen Now']),
 			' ',
 			w(MdcButton, {
-				icon: this._inLibrary ? 'playlist_add_check' : 'playlist_add',
-				onClick: this._toggleLibrary,
-			}, [this._inLibrary ? 'Remove from My Bookshelf' : 'Add to My Bookshelf'])
+				icon: inBookshelf ? 'playlist_add_check' : 'playlist_add',
+				onClick: this._onToggleBookshelf,
+			}, [inBookshelf ? 'Remove from My Bookshelf' : 'Add to My Bookshelf'])
 		];
 	}
 
-	private _listenToMe() {}
-
-	private _toggleLibrary() {
-		if(!this._inLibrary) {
-			// POST addToLibrary 
-		} else {
-			// POST removeFromLibrary
-		}
-		this._inLibrary = !this._inLibrary;
-		this.invalidate();
+	private _onListenNow() {
+		const {
+			book: { id },
+			onListenNow
+		} = this.properties;
+		onListenNow && onListenNow();
 	}
 
 	protected render() {
 		const {
-			title,
-			authors,
-			description,
+			book: {
+				id,
+				title,
+				authors = [],
+				description
+			},
+			inBookshelf = false,
 			// copyright_year = ' '
 		} = this.properties;
 
@@ -94,7 +100,8 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 		let auths = authors.map((a) => {
 			return v('span', {}, [
 				v('cite', [a.first_name, ' ', a.last_name]),
-				a.dob ? ` (${a.dob}-${a.dod})` : null
+				a.dob ? ` (${a.dob}-${a.dod})` : null,
+				` ${id}`
 			]);
 		});
 
@@ -114,19 +121,20 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 							v('span', { classes: [mdc.listItem__secondaryText] }, auths)
 						]),
 					w(MdcIconButton, {
-						icon: this._inLibrary ? 'check' : 'library_add',
-						title: this._inLibrary ? 'Remove from My Bookshelf' : 'Add to My Bookshelf',
-						onClick: (e: MouseEvent) => { e.preventDefault(); e.cancelBubble = true; this._toggleLibrary() },
+						icon: inBookshelf ? 'check' : 'library_add',
+						title: inBookshelf ? 'Remove from My Bookshelf' : 'Add to My Bookshelf',
+						onClick: (e: MouseEvent) => this._onToggleBookshelf(e),
 						extraClasses: [mdc.listItem__meta]
 					}),
 				]),
 				this._expanded ? v('li', {
+					key: `${this.properties.book.id}_description`,
 					classes: [ this.theme(css.bookMore), mdc.elevation__z4 ]
 					}, [
 						...this._bookActions(),
 						...this._bookMeta(),
 						v('div', { classes: [mdc.typography__body2, this.theme(css.description)], innerHTML: description })
-				]) : v('span', {}) // need to use an empty node because of 2.0.0 bug. fixed in 2.0.3
+				]) : v('span', { key: `${this.properties.book.id}_empty`}) // need to use an empty node because of 2.0.0 bug. fixed in 2.0.3
 		];
 	}
 }
