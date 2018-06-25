@@ -80,6 +80,10 @@
 		order: 2;
 	}
 
+	.bookTitle {
+		max-width: 14em;
+	}
+
 	.timeDisplay {
 		display: none;
 	}

@@ -9,18 +9,17 @@ import MdcIconButton from './MdcIconButton';
 import MdcLinearProgress from './MdcLinearProgress';
 import { AudiobookChapterType, AudiobookType } from '../interfaces';
 import Select from '@dojo/widgets/select';
+import { diffProperty } from '@dojo/widget-core/decorators/diffProperty';
+import { auto } from '@dojo/widget-core/diff';
 
 export interface AudiobookPlayerProperties extends WidgetProperties {
-	title?: string;
-	chapters?: AudiobookChapterType[];
-	currentChapter: number;
-	playbackPosition: number;
-	//book: AudiobookType;
+	book: AudiobookType;
 	onPause?(): void;
 	onPlay?(): void;
 	onPlayPause?(): void;
 	onTimeUpdate?(currentTime: number): void;
 	onGotoChapter?(chapter: AudiobookChapterType, index: number): void;
+	onBookChange?(newBook: AudiobookType): void;
 	playOnLoad?: boolean;
 }
 
@@ -29,6 +28,33 @@ export const ThemedBase = ThemedMixin(WidgetBase);
 @theme(css)
 export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerProperties> {
 	private _audio = new Audio();
+	private _newBook = false;
+
+	@diffProperty('book', auto)
+	private _onBookChange(oldProperites: AudiobookPlayerProperties, newProperties: AudiobookPlayerProperties) {
+		// if oldProperties is empty then we have yet to load a book. Essentially it is onFirstLoad
+
+		this._newBook = true;
+		const newBook = newProperties.book;
+
+		// Load in book and chapters -- no need, it will already have its chapters when we get it b/c App Context
+		/*
+
+		// Goto proper chapter
+		const chapter = newBook.currentChapter || 0;
+		const position = newBook.currentPosition;
+
+		// Play at proper position
+		this._gotoChapter(chapter, true, position);
+
+		this.properties.onBookChange && this.properties.onBookChange(newBook);
+		*/
+	}
+
+	private _attached = false;
+	onAttach() {
+		this._attached = true;
+	}
 
 	private _playPause() {
 		if(this._isPlaying()) {
@@ -44,7 +70,7 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 
 	private _progressIndeterminate = false;
 
-	private _setSource(src: string, andPlayIt = false) {
+	private _setSource(src: string, andPlayIt = false, position = 0) {
 		// Otherwise nothing plays because the source is constantly reset.
 		// This widget probably needs some things to live outside of render land.
 		// How can the src be set on creation instead of render?
@@ -54,8 +80,10 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 			this._audio.ontimeupdate = () => { this._onTimeUpdate(); };
 			this._audio.onloadedmetadata = () => {
 				this._progressIndeterminate = false;
+				this._audio.currentTime = position;
 				this._onTimeUpdate();
 				andPlayIt && this._audio.play();
+				this.invalidate();
 			};
 			this._audio.onended = () => { this._playNext(); }
 			return true;
@@ -68,11 +96,11 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 
 		const next = this._getBookChapter() + 1;
 		if (next < chapters.length) {
-			this._gotoTrack(next, true);
+			this._gotoChapter(next, true);
 		}
 	}
 
-	private _gotoTrack(idx: number, andPlay = false) {
+	private _gotoChapter(idx: number, andPlay = false, position = 0) {
 		const {
 			onGotoChapter
 		} = this.properties;
@@ -82,7 +110,7 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 		const url = track ? track.url || '' : '';
 
 		const playing = this._isPlaying();
-		if (url && this._setSource(url, playing || andPlay)) {
+		if (url && this._setSource(url, playing || andPlay, position)) {
 			onGotoChapter && onGotoChapter(track, idx);
 		}
 	}
@@ -160,9 +188,11 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 			title = ''
 		} = book;
 
+		/*
 		if(this._getBookChapter() <= 0 ) {
-			this._gotoTrack(0, this.properties.playOnLoad);
+			this._gotoChapter(0, this.properties.playOnLoad);
 		}
+		*/
 
 		const minValue = this._isPlaying() ? 0.01 : 0;
 		const progress = this._duration > 0 ?
@@ -195,7 +225,7 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 							}),
 							value: this._getBookChapter().toString(),
 							onChange: (option: AudiobookChapterType) => {
-								this._gotoTrack(option.index, true);
+								this._gotoChapter(option.index, true);
 								this.invalidate();
 							}
 						}) : null
@@ -243,6 +273,20 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 	}
 
 	protected render() {
+		if(this._newBook) {
+			this._newBook = false;
+			const {
+				book: {
+					currentChapter = 0,
+					currentPosition = 0
+				}
+			} = this.properties;
+
+			// Play at proper position
+			this._gotoChapter(currentChapter, this._attached, currentPosition);
+
+			this.properties.onBookChange && this.properties.onBookChange(this.properties.book);
+		}
 		return this._renderPlayer();
 	}
 }

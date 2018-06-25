@@ -11,23 +11,22 @@ export default class ApplicationContext {
 	private _currentBook: AudiobookType;
 
 	private _invalidator: () => void;
+	private _save: (myBookshelf: AudiobookType[], currentBook?: AudiobookType) => void;
 
-	constructor(invalidator: () => void, bookshelf: AudiobookType[] = [], currentBook?: AudiobookType) {
+	constructor(invalidator: () => void, bookshelf: AudiobookType[] = [],
+		currentBook?: AudiobookType, save?: (myBookshelf: AudiobookType[], currentBook?: AudiobookType) => void) {
 		this._invalidator = invalidator;
 		this._myBookshelf = bookshelf;
 		if(currentBook) {
 			this.playAudiobook(currentBook);
 		}
+		if(save) { 
+			this._save = save;
+		}
 	}
 
 	private _saveState(): void {
-		if(this._myBookshelf.length) {
-			window.localStorage.setItem('myBookshelf', JSON.stringify(this._myBookshelf));
-		}
-
-		if(this._currentBook) {
-			window.localStorage.setItem('currentBook', JSON.stringify(this._currentBook));
-		}
+		this._save && this._save(this._myBookshelf, this._currentBook);
 	}
 
 	get myBookshelf(): AudiobookType[] {
@@ -61,14 +60,14 @@ export default class ApplicationContext {
 	}
 
 	public playAudiobook(book: AudiobookType): void {
-		this.currentBook = book;
-
 		if(!book.chapters || book.chapters.length == 0) {
 			fetch(`http://localhost/~schontz/librivox/rss.php?q=${book.id}`).then((r) => r.json()).then((data) => {
-				this._currentBook.chapters = data;
+				book.chapters = data;
+				this.currentBook = book;
 				this._invalidator();
 			});
 		} else {
+			this.currentBook = book;
 			this._invalidator();
 		}
 	}
@@ -103,9 +102,13 @@ export default class ApplicationContext {
 	}
 
 	private _doRemoveFromShelf(index: number): void {
+		if(this._myBookshelf.length == 1 && index == 0) {
+			this._myBookshelf = [];
+		} else {
 			this._myBookshelf.splice(index, 1);
-			this._saveState();
-			this._invalidator();
+		}
+		this._saveState();
+		this._invalidator();
 	}
 
 	public removeFromMyBookshelf(book: AudiobookType): boolean {
@@ -134,7 +137,6 @@ export default class ApplicationContext {
 
 	set currentPosition(position: number | undefined) {
 		this._currentBook.currentPosition = position;
-		console.log('update pos:', position);
 		this._invalidator();
 		this._saveState();
 	}

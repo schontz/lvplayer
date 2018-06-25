@@ -1,7 +1,7 @@
 import { Container } from '@dojo/widget-core/Container';
 import ApplicationContext from '../ApplicationContext';
 import AudiobookPlayer, { AudiobookPlayerProperties } from '../widgets/AudiobookPlayer';
-import { AudiobookChapterType } from '../interfaces';
+import { AudiobookChapterType, AudiobookType } from '../interfaces';
 
 function getProperties(inject: ApplicationContext, properties: any): AudiobookPlayerProperties {
 	const {
@@ -16,6 +16,9 @@ function getProperties(inject: ApplicationContext, properties: any): AudiobookPl
 		},
 		onTimeUpdate: (time: number) => {
 			inject.currentPosition = time;
+		},
+		onBookChange: (book: AudiobookType) => {
+
 		}
 	};
 

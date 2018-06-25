@@ -11,7 +11,20 @@ registry.defineInjector('state', (invalidator) => {
 	const storedCurrent = window.localStorage.getItem('currentBook');
 	const currentBook = storedCurrent ? JSON.parse(storedCurrent) : null;
 
-	const applicationContext = new ApplicationContext(invalidator, myBookshelf, currentBook);
+	const applicationContext = new ApplicationContext(invalidator, myBookshelf, currentBook,
+		(myBookshelf, currentBook) => {
+		if(myBookshelf.length) {
+			window.localStorage.setItem('myBookshelf', JSON.stringify(myBookshelf));
+		} else {
+			window.localStorage.removeItem('myBookshelf');
+		}
+
+		if(currentBook) {
+			window.localStorage.setItem('currentBook', JSON.stringify(currentBook));
+		} else {
+			window.localStorage.removeItem('currentBook');
+		}
+	});
 
 	return () => applicationContext;
 });
