@@ -5,26 +5,34 @@ import ApplicationContext from './ApplicationContext';
 
 const registry = new Registry();
 registry.defineInjector('state', (invalidator) => {
-	const storedBookshelf = window.localStorage.getItem('myBookshelf');
+	const bookshelfId = 'myBookshelf';
+	const storedBookshelf = window.localStorage.getItem(bookshelfId);
 	const myBookshelf = storedBookshelf ? JSON.parse(storedBookshelf) : [];
 
-	const storedCurrent = window.localStorage.getItem('currentBook');
+	const currentBookId = 'currentBook';
+	const storedCurrent = window.localStorage.getItem(currentBookId);
 	const currentBook = storedCurrent ? JSON.parse(storedCurrent) : null;
 
 	const applicationContext = new ApplicationContext(invalidator, myBookshelf, currentBook,
-		(myBookshelf, currentBook) => {
-		if(myBookshelf.length) {
-			window.localStorage.setItem('myBookshelf', JSON.stringify(myBookshelf));
-		} else {
-			window.localStorage.removeItem('myBookshelf');
-		}
+		function save (myBookshelf, currentBook) {
+			if (myBookshelf.length) {
+				window.localStorage.setItem(bookshelfId, JSON.stringify(myBookshelf));
+			} else {
+				window.localStorage.removeItem(bookshelfId);
+			}
 
-		if(currentBook) {
-			window.localStorage.setItem('currentBook', JSON.stringify(currentBook));
-		} else {
-			window.localStorage.removeItem('currentBook');
+			if (currentBook) {
+				window.localStorage.setItem(currentBookId, JSON.stringify(currentBook));
+			} else {
+				window.localStorage.removeItem(currentBookId);
+			}
+		},
+		function search(value: string) {
+			return fetch(`http://localhost/~schontz/librivox/api.php?q=audiobooks/author/${value}`).then((r) => r.json()).then((data) => {
+				return data.books;
+			}).catch((e: any) => { return []; });
 		}
-	});
+	);
 
 	return () => applicationContext;
 });

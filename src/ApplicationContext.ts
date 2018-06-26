@@ -12,9 +12,12 @@ export default class ApplicationContext {
 
 	private _invalidator: () => void;
 	private _save: (myBookshelf: AudiobookType[], currentBook?: AudiobookType) => void;
+	private _search: (value: string) => Promise<AudiobookType[]>;
+	private _searchResults : AudiobookType[] = [];
 
 	constructor(invalidator: () => void, bookshelf: AudiobookType[] = [],
-		currentBook?: AudiobookType, save?: (myBookshelf: AudiobookType[], currentBook?: AudiobookType) => void) {
+		currentBook?: AudiobookType, save?: (myBookshelf: AudiobookType[], currentBook?: AudiobookType) => void,
+		search?: (value: string) => Promise<AudiobookType[]>) {
 		this._invalidator = invalidator;
 		this._myBookshelf = bookshelf;
 		if(currentBook) {
@@ -23,6 +26,26 @@ export default class ApplicationContext {
 		if(save) { 
 			this._save = save;
 		}
+		if(search) {
+			this._search = search;
+		}
+	}
+
+	private _doSearch(value: string) {
+		if(this._search) {
+			this._search(value).then((results: AudiobookType[]) => {
+				this._searchResults = results;
+				this._invalidator();
+			});
+		}
+	}
+
+	public search(value: string) {
+		this._doSearch(value);
+	}
+
+	get searchResults(): AudiobookType[] {
+		return this._searchResults;
 	}
 
 	private _saveState(): void {
@@ -102,11 +125,11 @@ export default class ApplicationContext {
 	}
 
 	private _doRemoveFromShelf(index: number): void {
-		if(this._myBookshelf.length == 1 && index == 0) {
-			this._myBookshelf = [];
-		} else {
+		// if(this._myBookshelf.length == 1 && index == 0) {
+			// this._myBookshelf = [];
+		// } else {
 			this._myBookshelf.splice(index, 1);
-		}
+		// }
 		this._saveState();
 		this._invalidator();
 	}
@@ -140,17 +163,4 @@ export default class ApplicationContext {
 		this._invalidator();
 		this._saveState();
 	}
-
-	/*
-	public formInput(input: Partial<WorkerFormData>): void {
-		this._formData = deepAssign({}, this._formData, input);
-		this._invalidator();
-	}
-
-	public submitForm(): void {
-		this._workerData = [ ...this._workerData, this._formData ];
-		this._formData = {};
-		this._invalidator();
-	}
-	*/
 }

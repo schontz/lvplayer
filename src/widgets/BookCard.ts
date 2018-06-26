@@ -5,26 +5,10 @@ import * as css from './styles/bookCard.m.css';
 import * as mdc from './mdc/material-components-web.m.css';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
+import { AudiobookType } from '../interfaces';
 
-export interface AuthorType {
-	id: number;
-	first_name: string;
-	last_name: string;
-	dob: string | number;
-	dod?: string | number;
-}
-
-export interface BookType {
-	title: string;
-	authors: AuthorType[];
-	description: string;
-	copyright_year?: number | string;
-	language?: string;
-	totaltime?: string;
-	totaltimesecs?: number;
-}
-
-export interface BookCardProperties extends WidgetProperties, BookType {
+export interface BookCardProperties extends WidgetProperties {
+	book: AudiobookType;
 }
 
 export const ThemedBase = ThemedMixin(WidgetBase);
@@ -35,10 +19,12 @@ export default class BookCard extends ThemedBase<BookCardProperties> {
 
 	protected render() {
 		const {
-			title,
-			authors,
-			description,
-			copyright_year = ' '
+			book: {
+				title,
+				authors = [],
+				description,
+				copyright_year = ' '
+			}
 		} = this.properties;
 
 		return v("div", { classes: [

@@ -78,25 +78,15 @@
 
 	.bookDisplay {
 		order: 2;
+		text-align: center;
 	}
 
 	.bookTitle {
-		max-width: 14em;
+		max-width: 80%;
+		margin: auto;
 	}
 
 	.timeDisplay {
-		display: none;
-	}
-
-	.playPause {
-		order: 1;
-	}
-
-	.rewind {
-		order: 2;
-	}
-
-	.forward {
 		display: none;
 	}
 }

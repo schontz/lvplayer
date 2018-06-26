@@ -213,7 +213,7 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 				}, [
 					v('div', { classes: [mdc.typography__caption, this.theme(css.bookDisplay)] }, [ // left 1/3rd
 						v('div', { classes: [mdc.typography__subtitle2, this.theme(css.bookTitle)], title }, [title]),
-						chapters.length ? w(Select, {
+						chapters.length > 1 ? w(Select, {
 							key: 'chapterSelector',
 							useNativeElement: true,
 							getOptionLabel: (option: AudiobookChapterType) => option.title,

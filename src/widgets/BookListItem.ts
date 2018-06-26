@@ -3,7 +3,7 @@ import { v, w } from '@dojo/widget-core/d';
 
 import * as css from './styles/bookListItem.m.css';
 import * as mdc from './mdc/material-components-web.m.css';
-import { WidgetProperties } from '@dojo/widget-core/interfaces';
+import { WidgetProperties, SupportedClassName } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
 import MdcIconButton from './MdcIconButton';
 import MdcButton from './MdcButton';
@@ -15,6 +15,7 @@ export interface BookListItemProperties extends WidgetProperties {
 	currentlyPlaying?: false;
 	onToggleBookshelf?(): void;
 	onListenNow(): void;
+	extraClasses?: SupportedClassName[];
 }
 
 export const ThemedBase = ThemedMixin(WidgetBase);
@@ -93,6 +94,7 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 				description
 			},
 			inBookshelf = false,
+			extraClasses = []
 			// copyright_year = ' '
 		} = this.properties;
 
@@ -101,13 +103,13 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 			return v('span', {}, [
 				v('cite', [a.first_name, ' ', a.last_name]),
 				a.dob ? ` (${a.dob}-${a.dod})` : null,
-				` ${id}`
+				' '
 			]);
 		});
 
 		return [
 			v('li', {
-				classes: [mdc.listItem, this._expanded ? mdc.listItem__activated : null],
+				classes: [mdc.listItem, this._expanded ? mdc.listItem__activated : null, ...extraClasses],
 				onclick: () => {
 					this._expanded = !this._expanded;
 					this.invalidate();
