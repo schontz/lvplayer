@@ -1,0 +1,10 @@
+.root {}
+
+.titleLink {
+	color: white;
+	text-decoration: none;
+}
+
+.titleLink:hover {
+	text-decoration: underline;
+}

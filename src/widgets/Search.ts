@@ -2,17 +2,17 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { v, w } from '@dojo/widget-core/d';
 
 import * as css from './styles/search.m.css';
-import * as mdc from './mdc/material-components-web.m.css';
+import * as mdc from '../material/styles/material-components-web.m.css';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
 import BookListItem from './BookListItem';
-import MdcButton from './MdcButton';
+import MdcButton from '../material/MdcButton';
 import {
 	AudiobookType,
 	AuthorType
 } from '../interfaces';
 import BookListItemContainer from '../containers/BookListItemContainer';
-import MdcTextField from './MdcTextField';
+import MdcTextField from '../material/MdcTextField';
 import TextInput from '@dojo/widgets/text-input';
 import { diffProperty } from '@dojo/widget-core/decorators/diffProperty';
 import { reference } from '@dojo/widget-core/diff';

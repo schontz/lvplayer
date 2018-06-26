@@ -2,11 +2,11 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { v, w } from '@dojo/widget-core/d';
 
 import * as css from './styles/audiobookPlayer.m.css';
-import * as mdc from './mdc/material-components-web.m.css';
+import * as mdc from '../material/styles/material-components-web.m.css';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
-import MdcIconButton from './MdcIconButton';
-import MdcLinearProgress from './MdcLinearProgress';
+import MdcIconButton from '../material/MdcIconButton';
+import MdcLinearProgress from '../material/MdcLinearProgress';
 import { AudiobookChapterType, AudiobookType } from '../interfaces';
 import Select from '@dojo/widgets/select';
 import { diffProperty } from '@dojo/widget-core/decorators/diffProperty';

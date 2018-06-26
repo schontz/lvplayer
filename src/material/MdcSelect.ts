@@ -1,8 +1,8 @@
 /* FIXME: this implementation is incomplete and lacks many necessary features */
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { v } from '@dojo/widget-core/d';
-import * as css from './styles/mdcSelect.m.css';
-import * as mdc from './mdc/material-components-web.m.css';
+import * as css from '../material/styles/mdcSelect.m.css';
+import * as mdc from '../material/styles/material-components-web.m.css';
 import { WidgetProperties, SupportedClassName } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
 import { find } from '@dojo/shim/array';

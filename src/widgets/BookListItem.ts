@@ -2,11 +2,11 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { v, w } from '@dojo/widget-core/d';
 
 import * as css from './styles/bookListItem.m.css';
-import * as mdc from './mdc/material-components-web.m.css';
+import * as mdc from '../material/styles/material-components-web.m.css';
 import { WidgetProperties, SupportedClassName } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
-import MdcIconButton from './MdcIconButton';
-import MdcButton from './MdcButton';
+import MdcIconButton from '../material/MdcIconButton';
+import MdcButton from '../material/MdcButton';
 import { AudiobookType } from '../interfaces';
 
 export interface BookListItemProperties extends WidgetProperties {
@@ -73,7 +73,7 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 			w(MdcButton, {
 				icon: inBookshelf ? 'playlist_add_check' : 'playlist_add',
 				onClick: this._onToggleBookshelf,
-			}, [inBookshelf ? 'Remove from My Bookshelf' : 'Add to My Bookshelf'])
+			}, [inBookshelf ? 'Remove from Shelf' : 'Add to Shelf'])
 		];
 	}
 
@@ -117,7 +117,10 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 			}, [
 					v('span', { classes: [mdc.listItem__graphic, mdc.icon ] },
 						[this._expanded ? 'expand_more' : 'chevron_right']),
-					v('span', { classes: [mdc.listItem__text] },
+					v('span', {
+						classes: [mdc.listItem__text],
+						title
+						},
 						[
 							title,
 							v('span', { classes: [mdc.listItem__secondaryText] }, auths)
