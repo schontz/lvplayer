@@ -42,7 +42,7 @@ I've only made what I've needed so far. Ripple doesn't work yet, but that can co
 	<li>Lazy-load current audiobook on load. Right now the last book automatically loads its MP3.</li>
 	<li>Fix fullwidth bug when you search for a book</li>
 	<li>Routes for pages (home, search, bookshelf)</li>
-	<li>Polish the Material widgets<li>
+	<li>Polish the Material widgets</li>
 </ul>
 `
 			})
