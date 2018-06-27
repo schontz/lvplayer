@@ -36,24 +36,26 @@ export default class MdcButton extends ThemedBase<MdcButtonProperties> {
 			tag = 'button'
 		} = this.properties;
 
+		const classes = [];
+
 		switch(variant) {
 			case 'outlined':
-				extraClasses.push(mdc.button__outlined);
+				classes.push(mdc.button__outlined);
 				break;
 			case 'raised':
-				extraClasses.push(mdc.button__raised);
+				classes.push(mdc.button__raised);
 				break;
 			case 'unelevated':
-				extraClasses.push(mdc.button__unelevated);
+				classes.push(mdc.button__unelevated);
 				break;
 		}
 
 		if(dense) {
-			extraClasses.push(mdc.button__dense);
+			classes.push(mdc.button__dense);
 		}
 
 		if(disabled) {
-			extraClasses.push(mdc.iconButton__disabled);
+			classes.push(mdc.iconButton__disabled);
 		}
 
 		return v(tag, {
@@ -64,6 +66,7 @@ export default class MdcButton extends ThemedBase<MdcButtonProperties> {
 			classes: [
 				this.theme(css.root),
 				mdc.button,
+				...classes,
 				...extraClasses
 			],
 			onclick: (e:MouseEvent) => this._onClick(e)

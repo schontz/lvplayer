@@ -73,20 +73,22 @@ export default class MdcSelect extends ThemedBase<MdcSelectProperties> {
 			variant
 		} = this.properties;
 
+		const classes = [];
+
 		switch(variant) {
 			case 'selectBox':
-				extraClasses.push(mdc.select__box);
+				classes.push(mdc.select__box);
 				break;
 			case 'outlined':
-				extraClasses.push(mdc.select__outlined);
+				classes.push(mdc.select__outlined);
 				break;
 		}
 
 		if(disabled) {
-			extraClasses.push(mdc.select__disabled);
+			classes.push(mdc.select__disabled);
 		}
 
-		return v("div", { classes: [mdc.select, this.theme(css.root), ...extraClasses] }, [
+		return v("div", { classes: [mdc.select, this.theme(css.root), ...classes, ...extraClasses] }, [
 			v("select", {
 				classes: [mdc.select__nativeControl],
 				disabled: disabled,

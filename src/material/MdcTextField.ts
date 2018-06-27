@@ -78,44 +78,45 @@ export default class MdcTextField extends ThemedBase<MdcTextFieldProperties> {
 		const fullwidth = variant == 'fullwidth';
 		const tag = variant == 'textarea' ? 'textarea' : 'input';
 		const canHaveIcons = !fullwidth && (variant == 'box' || variant == 'outlined');
-
-		switch(variant) {
-			case 'outlined':
-				extraClasses.push(mdc.textField__outlined);
-				break;
-			case 'textarea':
-				extraClasses.push(mdc.textField__textarea);
-				break;
-			case 'box':
-				extraClasses.push(mdc.textField__box);
-				break;
-			case 'fullwidth':
-				extraClasses.push(mdc.textField__fullwidth);
-				break;
-		}
+		const classes = [];
 
 		if(canHaveIcons && leadingIcon) {
-			extraClasses.push(mdc.textField__withLeadingIcon);
+			classes.push(mdc.textField__withLeadingIcon);
 		}
 
 		if(canHaveIcons && trailingIcon) {
-			extraClasses.push(mdc.textField__withTrailingIcon);
+			classes.push(mdc.textField__withTrailingIcon);
 		}
 
 		if(dense) {
-			extraClasses.push(mdc.textField__dense);
+			classes.push(mdc.textField__dense);
 		}
 
 		if(disabled) {
-			extraClasses.push(mdc.textField__disabled);
+			classes.push(mdc.textField__disabled);
 		}
 
 		if(this._focused) {
-			extraClasses.push(mdc.textField__focused);
+			classes.push(mdc.textField__focused);
 		}
 
 		if(value) {
-			extraClasses.push(mdc.textField__upgraded);
+			classes.push(mdc.textField__upgraded);
+		}
+
+		switch(variant) {
+			case 'outlined':
+				classes.push(mdc.textField__outlined);
+				break;
+			case 'textarea':
+				classes.push(mdc.textField__textarea);
+				break;
+			case 'box':
+				classes.push(mdc.textField__box);
+				break;
+			case 'fullwidth':
+				classes.push(mdc.textField__fullwidth);
+				break;
 		}
 			
 		const outline = [];
@@ -138,7 +139,8 @@ export default class MdcTextField extends ThemedBase<MdcTextFieldProperties> {
 			);
 		}
 
-		return v("div", { classes: [this.theme(css.root), mdc.textField, ...extraClasses] }, [
+		console.log([this.theme(css.root), mdc.textField, ...classes, ...extraClasses].join(' '))
+		return v("div", { classes: [this.theme(css.root), mdc.textField, ...classes, ...extraClasses] }, [
 			canHaveIcons && leadingIcon ? v('i', { classes: [mdc.icon, mdc.textField__icon] }, [leadingIcon]) : null,
 			v(tag, {
 				type: type,
