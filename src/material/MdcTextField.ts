@@ -139,7 +139,6 @@ export default class MdcTextField extends ThemedBase<MdcTextFieldProperties> {
 			);
 		}
 
-		console.log([this.theme(css.root), mdc.textField, ...classes, ...extraClasses].join(' '))
 		return v("div", { classes: [this.theme(css.root), mdc.textField, ...classes, ...extraClasses] }, [
 			canHaveIcons && leadingIcon ? v('i', { classes: [mdc.icon, mdc.textField__icon] }, [leadingIcon]) : null,
 			v(tag, {

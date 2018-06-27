@@ -12,11 +12,17 @@ function getProperties(inject: ApplicationContext, properties: any): BookListIte
 		key: book.id,
 		inBookshelf,
 		currentlyPlaying,
-		onToggleBookshelf: () => {
-			inject.addRemoveFromMyBookshelf(book);
+		onToggleBookshelf: (e: MouseEvent) => {
+			const added = inject.addRemoveFromMyBookshelf(book);
+			properties.onToggleBookshelf && properties.onToggleBookshelf(e);
+			if(added) {
+				const node = <HTMLElement>e.target;
+				// TODO how can we animate this button to the bookshelf?
+			}
 		},
 		onListenNow: () => {
 			inject.playAudiobook(book);
+			properties.onListenNow && properties.onListenNow();
 		}
 	};
 }

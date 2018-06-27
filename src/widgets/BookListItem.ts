@@ -13,7 +13,7 @@ export interface BookListItemProperties extends WidgetProperties {
 	book: AudiobookType;
 	inBookshelf?: boolean;
 	currentlyPlaying?: false;
-	onToggleBookshelf?(): void;
+	onToggleBookshelf?(e?: MouseEvent): void;
 	onListenNow(): void;
 	extraClasses?: SupportedClassName[];
 }
@@ -31,7 +31,7 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 		}
 
 		if (this.properties.onToggleBookshelf) {
-			this.properties.onToggleBookshelf();
+			this.properties.onToggleBookshelf(e);
 			this.invalidate();
 		}
 	}
@@ -72,7 +72,7 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 			' ',
 			w(MdcButton, {
 				icon: inBookshelf ? 'playlist_add_check' : 'playlist_add',
-				onClick: this._onToggleBookshelf,
+				onClick: (e: MouseEvent) => this._onToggleBookshelf(e)
 			}, [inBookshelf ? 'Remove from Shelf' : 'Add to Shelf'])
 		];
 	}

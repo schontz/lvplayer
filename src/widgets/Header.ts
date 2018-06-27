@@ -5,6 +5,7 @@ import * as css from './styles/header.m.css';
 import * as mdc from '../material/styles/material-components-web.m.css';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
+import uuid from '@dojo/core/uuid';
 
 export interface HeaderProperties extends WidgetProperties {
 	title: string;
@@ -15,6 +16,13 @@ export const ThemedBase = ThemedMixin(WidgetBase);
 
 @theme(css)
 export default class Header extends ThemedBase<HeaderProperties> {
+	private _homeId = uuid();
+	private _bookshelfId = uuid();
+	private _searchId = uuid();
+
+	public animateAdd(source: HTMLElement) {
+
+	}
 
 	protected render() {
 		const {
@@ -36,6 +44,7 @@ export default class Header extends ThemedBase<HeaderProperties> {
 					v("span", { classes: [mdc.topAppBar__title] }, [
 						v('a', {
 							href: '#',
+							id: this._homeId,
 							classes: this.theme(css.titleLink),
 							onclick: (e: MouseEvent) => {
 								e.preventDefault();
@@ -59,6 +68,7 @@ export default class Header extends ThemedBase<HeaderProperties> {
 					  "a",
 					  {
 						 href: "#",
+						 id: this._bookshelfId,
 						 "aria-label": "My Bookshelf",
 						 alt: "My Bookshelf",
 						 title: "My Bookshelf",
@@ -75,6 +85,7 @@ export default class Header extends ThemedBase<HeaderProperties> {
 					  "a",
 					  {
 						 href: "#",
+						 id: this._searchId,
 						 "aria-label": "Search",
 						 alt: "Search",
 						 title: "Search",

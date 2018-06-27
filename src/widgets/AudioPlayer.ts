@@ -38,7 +38,6 @@ export default class AudioPlayer extends ThemedBase<AudioPlayerProperties> {
 		// This widget probably needs some things to live outside of render land.
 		// How can the src be set on creation instead of render?
 		if(this._audio.src != src) {
-			console.log('Audio source:',src);
 			this._audio.src = src;
 			this._audio.ontimeupdate = () => { this._onTimeUpdate(); };
 			this._audio.onloadedmetadata = () => {
