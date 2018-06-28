@@ -11,6 +11,7 @@ import BookListItemContainer from '../containers/BookListItemContainer';
 export interface BookshelfProperties extends WidgetProperties {
 	title?: string;
 	books?: AudiobookType[];
+	onAddToBookshelf?: (b: AudiobookType, e: MouseEvent) => void;
 }
 
 export const ThemedBase = ThemedMixin(WidgetBase);
@@ -19,7 +20,8 @@ export const ThemedBase = ThemedMixin(WidgetBase);
 export default class Bookshelf extends ThemedBase<BookshelfProperties> {
 	private _renderBooks() {
 		const {
-			books = []
+			books = [],
+			onAddToBookshelf
 		} = this.properties;
 
 		if (books.length) {
@@ -30,7 +32,11 @@ export default class Bookshelf extends ThemedBase<BookshelfProperties> {
 				books.sort((a, b) => {
 					return a.title > b.title ? 1 : -1;
 				}).map((book) => {
-					return w(BookListItemContainer, { key: book.id, book });
+					return w(BookListItemContainer, {
+						key: book.id,
+						book,
+						onAddToBookshelf
+					});
 				})
 			);
 		}

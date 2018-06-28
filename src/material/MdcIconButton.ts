@@ -10,7 +10,6 @@ export interface MdcIconButtonProperties extends WidgetProperties {
 	// variant?: 'raised' | 'unelevated' | 'outlined';
 	// dense?: boolean;
 	disabled?: boolean;
-	extraClasses?: SupportedClassName[];
 	tag?: 'button' | 'a';
 	title?: string;
 	onClick?(e?:MouseEvent): void;
@@ -30,7 +29,6 @@ export default class MdcIconButton extends ThemedBase<MdcIconButtonProperties> {
 			icon,
 			disabled = false,
 			title = '',
-			extraClasses = [],
 			tag = 'button'
 		} = this.properties;
 
@@ -44,7 +42,6 @@ export default class MdcIconButton extends ThemedBase<MdcIconButtonProperties> {
 				mdc.icon,
 				mdc.iconButton,
 				disabled ? mdc.iconButton__disabled : null,
-				...extraClasses
 			],
 			onclick: (e:MouseEvent) => this._onClick(e)
 		}, [icon]);

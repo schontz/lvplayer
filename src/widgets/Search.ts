@@ -22,6 +22,7 @@ export const ThemedBase = ThemedMixin(WidgetBase);
 export interface SearchProperties extends WidgetProperties {
 	results?: AudiobookType[];
 	onSearch?: (value: string) => void;
+	onAddToBookshelf?: (b: AudiobookType, e: MouseEvent) => void;
 }
 
 @theme(css)
@@ -52,7 +53,7 @@ export default class Search extends ThemedBase<SearchProperties> {
 				variant: 'fullwidth',
 				label: 'Search by author\'s last name (e.g. Twain)',
 				value: this._searchValue,
-				extraClasses: [this.theme(css.searchInput)],
+				extraClasses: { root: this.theme(css.searchInput) },
 				onChange: (value: string) => {
 					this._searchValue = value;
 					this.invalidate();
@@ -72,7 +73,8 @@ export default class Search extends ThemedBase<SearchProperties> {
 			return v('p', { key: 'searchingPlaceholder' }, ['Searching...']);
 		}
 		const {
-			results = []
+			results = [],
+			onAddToBookshelf
 		} = this.properties;
 
 		if (results.length) {
@@ -83,7 +85,11 @@ export default class Search extends ThemedBase<SearchProperties> {
 				results.sort((a, b) => {
 					return a.title > b.title ? 1 : -1;
 				}).map((book) => {
-					return w(BookListItemContainer, { key: book.id, book });
+					return w(BookListItemContainer, {
+						key: book.id,
+						book,
+						onAddToBookshelf
+					});
 				})
 			);
 		}

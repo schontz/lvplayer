@@ -13,7 +13,6 @@ export interface ChapterSelectItem {
 
 export interface ChapterSelectProperties extends WidgetProperties {
 	disabled?: boolean;
-	extraClasses?: SupportedClassName[];
 	placeholder?: string;
 	options?: ChapterSelectItem[];
 	value: any;

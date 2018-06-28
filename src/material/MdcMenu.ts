@@ -15,7 +15,6 @@ export interface MdcMenuProperties extends WidgetProperties {
 	items?: MdcMenuItem[];
 	onSelect?(item?:MdcMenuItem, index?:number): void;
 	open: boolean;
-	extraClasses?: SupportedClassName[];
 }
 
 export interface MdcMenuAnchorProperties extends WidgetProperties {
@@ -34,13 +33,12 @@ export default class MdcMenu extends ThemedBase<MdcMenuProperties> {
 		return v('div', {
 			classes: [
 				this.theme(css.root),
-				mdc.menu,
-				...extraClasses
+				mdc.menu
 			],
 			tabIndex: -1,
 			onclick: (e:MouseEvent) => this._onClick(e)
 		}, [
-			icon ? v('i', { classes: [mdc.icon, mdc.button__icon, ...extraClasses] }, [icon]) : null,
+			icon ? v('i', { classes: [mdc.icon, mdc.button__icon ] }, [icon]) : null,
 			...this.children,
 		]);
 	}

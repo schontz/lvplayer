@@ -2,6 +2,8 @@ import { ProjectorMixin } from '@dojo/widget-core/mixins/Projector';
 import App from './widgets/App';
 import { Registry } from '@dojo/widget-core/Registry';
 import ApplicationContext from './ApplicationContext';
+import 'web-animations-js/web-animations-next-lite.min';
+
 
 const registry = new Registry();
 registry.defineInjector('state', (invalidator) => {

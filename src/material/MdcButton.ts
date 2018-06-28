@@ -10,7 +10,6 @@ export interface MdcButtonProperties extends WidgetProperties {
 	variant?: 'raised' | 'unelevated' | 'outlined';
 	dense?: boolean;
 	disabled?: boolean;
-	extraClasses?: SupportedClassName[];
 	tag?: 'button' | 'a';
 	title?: string;
 	onClick?(e?:MouseEvent): void;
@@ -32,7 +31,6 @@ export default class MdcButton extends ThemedBase<MdcButtonProperties> {
 			dense = false,
 			disabled = false,
 			title = '',
-			extraClasses = [],
 			tag = 'button'
 		} = this.properties;
 
@@ -66,8 +64,7 @@ export default class MdcButton extends ThemedBase<MdcButtonProperties> {
 			classes: [
 				this.theme(css.root),
 				mdc.button,
-				...classes,
-				...extraClasses
+				...classes
 			],
 			onclick: (e:MouseEvent) => this._onClick(e)
 		}, [

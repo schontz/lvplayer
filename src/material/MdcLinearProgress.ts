@@ -11,7 +11,6 @@ export interface MdcLinearProgressProperties extends WidgetProperties {
 	closed?: boolean;
 	progress?: number;
 	buffer?: number;
-	extraClasses?: SupportedClassName[];
 }
 
 const ThemedBase = ThemedMixin(WidgetBase);
@@ -35,7 +34,6 @@ export default class MdcLinearProgress extends ThemedBase<MdcLinearProgressPrope
 			closed = false,
 			progress = 0,
 			buffer = 0,
-			extraClasses = []
 		} = this.properties;
 
 		progress = indeterminate ? 0 : this._boundProgress(progress);
@@ -48,8 +46,7 @@ export default class MdcLinearProgress extends ThemedBase<MdcLinearProgressPrope
 			role: "progressbar",
 			classes: [this.theme(css.root), mdc.linearProgress,
 			reversed ? mdc.linearProgress__reversed : null,
-			indeterminate ? mdc.linearProgress__indeterminate : null,
-			...extraClasses]
+			indeterminate ? mdc.linearProgress__indeterminate : null]
 		}, [
 			v("div", { classes: [mdc.linearProgress__bufferingDots] }),
 			v("div", {

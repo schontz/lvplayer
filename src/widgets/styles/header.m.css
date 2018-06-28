@@ -8,3 +8,26 @@
 .titleLink:hover {
 	text-decoration: underline;
 }
+
+.bookAdding {
+	position: absolute;
+	padding: 10px;
+	color: rgba(0, 0, 0, 0.38) !important;
+	margin: -15px;
+	z-index: 400;
+}
+
+.wiggle {
+	animation-name: wiggle;
+	animation-duration: 200ms;
+	animation-iteration-count: 2;
+	animation-timing-function: linear;
+}
+
+@keyframes wiggle {
+	0%  { transform: rotate(0); }
+	25% { transform: rotate(10deg); }
+	50% { transform: rotate(0); }
+	75% { transform: rotate(-10deg); }
+	100% { transform: rotate(0); }
+}

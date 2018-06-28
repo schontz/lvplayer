@@ -13,7 +13,6 @@ export interface MdcTextFieldProperties extends WidgetProperties {
 	variant?: 'fullwidth' | 'textarea' | 'outlined' | 'box';
 	disabled?: boolean;
 	dense?: boolean;
-	extraClasses?: SupportedClassName[];
 	label: string;
 	// TODO: helperText
 	type?: 'text' | 'password' | 'number';
@@ -69,7 +68,6 @@ export default class MdcTextField extends ThemedBase<MdcTextFieldProperties> {
 			variant,
 			disabled = false,
 			label = '',
-			extraClasses = [],
 			type = 'text',
 			value,
 			id = this._uuid
@@ -139,7 +137,7 @@ export default class MdcTextField extends ThemedBase<MdcTextFieldProperties> {
 			);
 		}
 
-		return v("div", { classes: [this.theme(css.root), mdc.textField, ...classes, ...extraClasses] }, [
+		return v("div", { classes: [this.theme(css.root), mdc.textField, ...classes] }, [
 			canHaveIcons && leadingIcon ? v('i', { classes: [mdc.icon, mdc.textField__icon] }, [leadingIcon]) : null,
 			v(tag, {
 				type: type,

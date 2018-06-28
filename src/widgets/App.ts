@@ -2,11 +2,12 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { v, w } from '@dojo/widget-core/d';
 import * as css from './styles/app.m.css';
 import * as mdc from '../material/styles/material-components-web.m.css';
-import Header from './Header';
+import Header, { AddAnimationBundle } from './Header';
 import AudiobookPlayerContainer from '../containers/AudiobookPlayerContainer';
 import SearchContainer from '../containers/SearchContainer';
 import BookshelfContainer from '../containers/BookshelfContainer';
 import Home from './Home';
+import { AudiobookType } from '../interfaces';
 
 export class App extends WidgetBase {
 	private _appTitle = 'LibriVox Audiobook Player'
@@ -15,11 +16,24 @@ export class App extends WidgetBase {
 	private _home = true;
 	private _search = false;
 	private _bookshelf = false;
+
+	private _addBookBundle: AddAnimationBundle;
+
+	private _onAddBook(book: AudiobookType, e: MouseEvent) {
+		this._addBookBundle = {
+			timestamp: new Date(),
+			event: e
+		};
+		this.invalidate();
+	}
 		 
 	protected render() {
 		return v('div', { classes: [css.root, mdc.typography] }, [
-			w(Header, { title: this._appTitle, onNavigate: (value: string) => {
-				switch(value) {
+			w(Header, {
+				title: this._appTitle,
+				addingBook: this._addBookBundle,
+				onNavigate: (value: string) => {
+					switch (value) {
 					case 'home':
 						this._bookshelf = this._search = false;
 						this._home = true;
@@ -37,8 +51,8 @@ export class App extends WidgetBase {
 			}
 			}),
 			v('div', { classes: [mdc.topAppBar__fixedAdjust, css.main] }, [
-				this._search ? w(SearchContainer, {}) : null,
-				this._bookshelf ? w(BookshelfContainer, {}) : null,
+				this._search ? w(SearchContainer, { onAddToBookshelf: this._onAddBook }) : null,
+				this._bookshelf ? w(BookshelfContainer, { onAddToBookshelf: this._onAddBook }) : null,
 				this._home ? w(Home, { title: 'Welcome to LibriVox' }) : null
 			]),
 			w(AudiobookPlayerContainer, {})

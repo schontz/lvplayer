@@ -205,7 +205,7 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 		}, [
 				w(MdcLinearProgress, {
 					indeterminate: this._progressIndeterminate,
-					extraClasses: [this.theme(css.progress)], progress: progress
+					extraClasses: { root: this.theme(css.progress) }, progress: progress
 				}),
 			v('div', {
 				key: 'controlsAndDisplays',
@@ -238,19 +238,19 @@ export default class AudiobookPlayer extends ThemedBase<AudiobookPlayerPropertie
 								icon: 'replay_30',
 								onClick: () => this._jump(-30),
 								disabled: !this._audio.src,
-								extraClasses: this.theme([css.icon, css.rewind])
+								extraClasses: { root: this.theme([css.icon, css.rewind]) }
 							}),
 							w(MdcIconButton, {
 								icon: this._isPlaying() ? 'pause' : 'play_arrow',
 								onClick: () => this._playPause(),
 								disabled: !this._audio.src,
-								extraClasses: this.theme([css.icon, css.playPause])
+								extraClasses: { root: this.theme([css.icon, css.playPause]) }
 							}),
 							w(MdcIconButton, {
 								icon: 'forward_30',
 								onClick: () => this._jump(30),
 								disabled: !this._audio.src,
-								extraClasses: this.theme([css.icon, css.forward])
+								extraClasses: { root: this.theme([css.icon, css.forward]) }
 							})
 					]),
 					v('div', { // right 1/3rd

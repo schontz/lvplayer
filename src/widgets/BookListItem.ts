@@ -8,14 +8,15 @@ import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
 import MdcIconButton from '../material/MdcIconButton';
 import MdcButton from '../material/MdcButton';
 import { AudiobookType } from '../interfaces';
+import { DimensionResults } from '@dojo/widget-core/meta/Dimensions';
 
 export interface BookListItemProperties extends WidgetProperties {
 	book: AudiobookType;
 	inBookshelf?: boolean;
 	currentlyPlaying?: false;
-	onToggleBookshelf?(e?: MouseEvent): void;
+	onToggleBookshelf?: (e?: MouseEvent, dimensions?: DimensionResults) => void;
+	onAddToBookshelf?: (book: AudiobookType, e: MouseEvent) => void;
 	onListenNow(): void;
-	extraClasses?: SupportedClassName[];
 }
 
 export const ThemedBase = ThemedMixin(WidgetBase);
@@ -24,7 +25,7 @@ export const ThemedBase = ThemedMixin(WidgetBase);
 export default class BookListItem extends ThemedBase<BookListItemProperties> {
 	private _expanded = false;
 
-	private _onToggleBookshelf(e?: MouseEvent) {
+	private _onToggleBookshelf(e: MouseEvent) {
 		if(e) {
 			e.preventDefault();
 			e.cancelBubble = true;
@@ -94,7 +95,6 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 				description
 			},
 			inBookshelf = false,
-			extraClasses = []
 			// copyright_year = ' '
 		} = this.properties;
 
@@ -109,7 +109,7 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 
 		return [
 			v('li', {
-				classes: [mdc.listItem, this._expanded ? mdc.listItem__activated : null, ...extraClasses],
+				classes: [mdc.listItem, this._expanded ? mdc.listItem__activated : null ],
 				onclick: () => {
 					this._expanded = !this._expanded;
 					this.invalidate();
@@ -129,7 +129,7 @@ export default class BookListItem extends ThemedBase<BookListItemProperties> {
 						icon: inBookshelf ? 'check' : 'library_add',
 						title: inBookshelf ? 'Remove from My Bookshelf' : 'Add to My Bookshelf',
 						onClick: (e: MouseEvent) => this._onToggleBookshelf(e),
-						extraClasses: [mdc.listItem__meta]
+						extraClasses: { root: mdc.listItem__meta }
 					}),
 				]),
 				this._expanded ? v('li', {

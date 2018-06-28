@@ -15,7 +15,6 @@ export interface MdcSelectItem {
 
 export interface MdcSelectProperties extends WidgetProperties {
 	disabled?: boolean;
-	extraClasses?: SupportedClassName[];
 	placeholder?: string;
 	options?: MdcSelectItem[];
 	variant?: 'selectBox' | 'outlined';
@@ -68,7 +67,6 @@ export default class MdcSelect extends ThemedBase<MdcSelectProperties> {
 		const {
 			disabled = false,
 			placeholder = '',
-			extraClasses = [],
 			options = [],
 			variant
 		} = this.properties;
@@ -88,7 +86,7 @@ export default class MdcSelect extends ThemedBase<MdcSelectProperties> {
 			classes.push(mdc.select__disabled);
 		}
 
-		return v("div", { classes: [mdc.select, this.theme(css.root), ...classes, ...extraClasses] }, [
+		return v("div", { classes: [mdc.select, this.theme(css.root), ...classes ] }, [
 			v("select", {
 				classes: [mdc.select__nativeControl],
 				disabled: disabled,
