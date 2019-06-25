@@ -1,6 +1,6 @@
-import { ProjectorMixin } from '@dojo/widget-core/mixins/Projector';
+import { ProjectorMixin } from '@dojo/framework/widget-core/mixins/Projector';
 import App from './widgets/App';
-import { Registry } from '@dojo/widget-core/Registry';
+import { Registry } from '@dojo/framework/widget-core/Registry';
 import ApplicationContext from './ApplicationContext';
 import 'web-animations-js/web-animations-next-lite.min';
 

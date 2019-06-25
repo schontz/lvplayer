@@ -1,9 +1,9 @@
 /* FIXME: this implementation is incomplete and lacks many necessary features */
-import WidgetBase from '@dojo/widget-core/WidgetBase';
-import { v } from '@dojo/widget-core/d';
+import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
+import { v } from '@dojo/framework/widget-core/d';
 import * as css from './styles/chapterSelect.m.css';
-import { WidgetProperties, SupportedClassName } from '@dojo/widget-core/interfaces';
-import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
+import { WidgetProperties, SupportedClassName } from '@dojo/framework/widget-core/interfaces';
+import { theme, ThemedMixin } from '@dojo/framework/widget-core/mixins/Themed';
 
 export interface ChapterSelectItem {
 	label?: string;

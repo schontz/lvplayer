@@ -1,9 +1,9 @@
-import WidgetBase from '@dojo/widget-core/WidgetBase';
-import { v } from '@dojo/widget-core/d';
+import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
+import { v } from '@dojo/framework/widget-core/d';
 import * as css from '../material/styles/mdcButton.m.css';
 import * as mdc from '../material/styles/material-components-web.m.css';
-import { WidgetProperties, SupportedClassName } from '@dojo/widget-core/interfaces';
-import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
+import { WidgetProperties, SupportedClassName } from '@dojo/framework/widget-core/interfaces';
+import { theme, ThemedMixin } from '@dojo/framework/widget-core/mixins/Themed';
 
 export interface MdcButtonProperties extends WidgetProperties {
 	icon?: string;

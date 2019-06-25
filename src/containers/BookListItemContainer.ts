@@ -1,7 +1,7 @@
-import { Container } from '@dojo/widget-core/Container';
+import { Container } from '@dojo/framework/widget-core/Container';
 import ApplicationContext from '../ApplicationContext';
 import BookListItem, { BookListItemProperties } from '../widgets/BookListItem';
-import { DimensionResults } from '@dojo/widget-core/meta/Dimensions';
+import { DimensionResults } from '@dojo/framework/widget-core/meta/Dimensions';
 
 function getProperties(inject: ApplicationContext, properties: any): BookListItemProperties {
 	const book = properties.book;

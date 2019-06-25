@@ -1,10 +1,10 @@
-import WidgetBase from '@dojo/widget-core/WidgetBase';
-import { v } from '@dojo/widget-core/d';
+import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
+import { v } from '@dojo/framework/widget-core/d';
 
 import * as css from './styles/bookCard.m.css';
 import * as mdc from '../material/styles/material-components-web.m.css';
-import { WidgetProperties } from '@dojo/widget-core/interfaces';
-import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
+import { WidgetProperties } from '@dojo/framework/widget-core/interfaces';
+import { theme, ThemedMixin } from '@dojo/framework/widget-core/mixins/Themed';
 import { AudiobookType } from '../interfaces';
 
 export interface BookCardProperties extends WidgetProperties {

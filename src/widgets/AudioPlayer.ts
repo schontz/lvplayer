@@ -1,10 +1,10 @@
-import WidgetBase from '@dojo/widget-core/WidgetBase';
+import WidgetBase from '@dojo/framework/widget-core/WidgetBase';
 import Slider from '@dojo/widgets/slider';
-import { v, w } from '@dojo/widget-core/d';
+import { v, w } from '@dojo/framework/widget-core/d';
 
 import * as css from './styles/audioPlayer.m.css';
-import { WidgetProperties } from '@dojo/widget-core/interfaces';
-import { theme, ThemedMixin } from '@dojo/widget-core/mixins/Themed';
+import { WidgetProperties } from '@dojo/framework/widget-core/interfaces';
+import { theme, ThemedMixin } from '@dojo/framework/widget-core/mixins/Themed';
 import MediaIcon from './MediaIcon';
 import Button from '@dojo/widgets/button';
 

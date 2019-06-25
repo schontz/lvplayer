@@ -1,4 +1,4 @@
-import { deepAssign } from '@dojo/core/lang';
+import { deepAssign } from './dojo/core/lang';
 
 import { AudiobookType, AudiobookChapterType } from './interfaces';
 
